@@ -1,34 +1,76 @@
-var CLOUD_WIDTH = 420;
-var CLOUD_HEIGHT = 270;
+// Константы окна (облака)
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
-var GAP_CLOUD = 10;
-var GAP = 40;
-var FONT_GAP = 50;
-var TEXT_HEIGHT = 40;
-var BAR_WIDTH = 40;
-var barHeight = CLOUD_HEIGHT - GAP - TEXT_HEIGHT - GAP;
+var CLOUD_WIDTH = 420;
+var CLOUD_HEIGHT = 270;
+var CLOUD_PADDING = 30; // Отступ внутри окна
+var CLOUD_SHADOW_OFFSET = 10; // Отступ тени окна
 
-var renderCloud = function (ctx, x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+// Константы текста
+var FONT_SIZE = 16;
+var FONT_GAP = 10;
+
+// Константы колонок
+var BAR_MAX_HEIGHT = 150;
+var BAR_WIDTH = 40;
+
+// Рисует окно с тенью (облако) в заданных координатах
+var drawWindow = function (ctx, x, y) {
+  drawRectangle(ctx, x + CLOUD_SHADOW_OFFSET, y + CLOUD_SHADOW_OFFSET, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.7)');
+  drawRectangle(ctx, x, y, CLOUD_WIDTH, CLOUD_HEIGHT, '#fff');
 };
 
-window.renderStatistics = function (ctx) {
-  renderCloud(ctx, CLOUD_X + GAP_CLOUD, CLOUD_Y + GAP_CLOUD, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+// Рисует текст заданного цвета в заданных координатах
+var drawText = function (ctx, text, x, y, color) {
+  ctx.font = FONT_SIZE + 'px PT Mono';
+  ctx.textBaseline = 'hanging';
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+};
 
-  ctx.fillStyle = '#000';
-  ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили !', 120, 40);
-  ctx.fillText('Список результатов:', 120, 60);
+// Рисует прямоугольник заданного цвета в заданных координатах
+var drawRectangle = function (ctx, x, y, width, height, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, width, height);
+};
 
-  ctx.fillStyle = '#000';
+// Возвращает максимальный элемент в массиве
+var getMaxElement = function (arr) {
+  // TODO
+};
 
-  var players = ['Вы', 'Иван', 'Юлия', 'Вадим'];
+// Возвращает цвет колонки гистограммы в зависимости
+// от имени игрока playerName. Если оно равно 'Вы', возвращает
+// красный rgba(255, 0, 0, 1). Если другое — случайный оттенок синего.
+var gerBarColor = function (playerName) {
+  // TODO
+};
 
-  for (var i = 0; i < players.lenght; i++) {
-    ctx.fillText(players[i], CLOUD_X + GAP + (BAR_WIDTH + FONT_GAP) * i, CLOUD_HEIGHT - GAP_CLOUD);
-    ctx.fillRect(CLOUD_X + GAP + (BAR_WIDTH + FONT_GAP) * i, CLOUD_Y + GAP * 2, BAR_WIDTH, barHeight);
+// Рисует статистику игроков
+window.renderStatistics = function (ctx, names, times) {
+  // Рисуем окно
+  drawWindow(ctx, CLOUD_X, CLOUD_Y);
+
+  // Рисуем текст поздравления с победой
+  drawText(ctx, 'Ура вы победили!\nСписок результатов:', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING);
+
+  // Находим максимальное значение времени
+  var maxTime = getMaxElement(times);
+
+  // Рисуем гистограмму
+  for (var i = 0; i < names.lenght; i++) {
+    var playerName = names[i];
+    var playerTime = times[i];
+
+    // Расчитываем цвет, положение и размеры колонки
+    var barColor = getBarColor(playerName);
+    var barHeight; // TODO
+    var barX; // TODO
+    var barY; // TODO
+
+    // Рисуем время игрока, колонку и имя игрока
+    drawText(ctx, playerTime, barX, barY - (FONT_GAP + FONT_SIZE), 'black');
+    drawRectangle(ctx, barX, barY, BAR_WIDTH, barHeight, barColor);
+    drawText(ctx, playerName, barX, barY + barHeight + FONT_GAP, 'black');
   }
 };
