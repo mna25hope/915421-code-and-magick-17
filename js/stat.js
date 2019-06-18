@@ -1,3 +1,5 @@
+'use strict';
+
 // Константы окна (облака)
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
@@ -13,6 +15,7 @@ var FONT_GAP = 10;
 // Константы колонок
 var BAR_MAX_HEIGHT = 150;
 var BAR_WIDTH = 40;
+var BAR_PADDING = 50;
 
 // Рисует окно с тенью (облако) в заданных координатах
 var drawWindow = function (ctx, x, y) {
@@ -36,14 +39,23 @@ var drawRectangle = function (ctx, x, y, width, height, color) {
 
 // Возвращает максимальный элемент в массиве
 var getMaxElement = function (arr) {
-  // TODO
+  var maxElement = arr[0];
+
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i] > maxElement) {
+      maxElement = arr[i];
+    }
+  }
+
+  return maxElement; // TODO
 };
 
 // Возвращает цвет колонки гистограммы в зависимости
 // от имени игрока playerName. Если оно равно 'Вы', возвращает
 // красный rgba(255, 0, 0, 1). Если другое — случайный оттенок синего.
-var gerBarColor = function (playerName) {
-  // TODO
+var getBarColor = function (playerName) {
+  if (playerName ='Вы') {getBarColor = rgba(255, 0, 0, 1);
+  } // TODO
 };
 
 // Рисует статистику игроков
@@ -64,9 +76,9 @@ window.renderStatistics = function (ctx, names, times) {
 
     // Расчитываем цвет, положение и размеры колонки
     var barColor = getBarColor(playerName);
-    var barHeight; // TODO
-    var barX; // TODO
-    var barY; // TODO
+    var barHeight = (BAR_MAX_HEIGHT * playerTime) / maxTime;
+    var barX = CLOUD_X + BAR_PADDING + (BAR_WIDTH + BAR_PADDING) * i;
+    var barY = (CLOUD_Y * 2 + CLOUD_PADDING * 2 + FONT_SIZE * 3 + FONT_GAP * 2 + BAR_MAX_HEIGHT) - barHeight; // TODO
 
     // Рисуем время игрока, колонку и имя игрока
     drawText(ctx, playerTime, barX, barY - (FONT_GAP + FONT_SIZE), 'black');
