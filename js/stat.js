@@ -39,6 +39,8 @@ var drawRectangle = function (ctx, x, y, width, height, color) {
 
 // Возвращает максимальный элемент в массиве
 var getMaxElement = function (arr) {
+if (!arr.length) return null;
+
   var maxElement = arr[0];
 
   for (var i = 1; i < arr.length; i++) {
@@ -54,8 +56,12 @@ var getMaxElement = function (arr) {
 // от имени игрока playerName. Если оно равно 'Вы', возвращает
 // красный rgba(255, 0, 0, 1). Если другое — случайный оттенок синего.
 var getBarColor = function (playerName) {
-  if (playerName ='Вы') {getBarColor = rgba(255, 0, 0, 1);
-  } // TODO
+  if (playerName === 'Вы') {
+    return 'rgba(255, 0, 0, 1)';
+  } else {
+    var saturation = Math.floor(Math.random()*100);
+    return 'hsl(230, ' +saturation+ '%, 50%)';
+  }// TODO
 };
 
 // Рисует статистику игроков
@@ -64,24 +70,25 @@ window.renderStatistics = function (ctx, names, times) {
   drawWindow(ctx, CLOUD_X, CLOUD_Y);
 
   // Рисуем текст поздравления с победой
-  drawText(ctx, 'Ура вы победили!\nСписок результатов:', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING);
+  drawText(ctx, 'Ура вы победили!', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING, 'black');
+    drawText(ctx, 'Список результатов:', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING + FONT_SIZE + FONT_GAP, 'black');
 
   // Находим максимальное значение времени
   var maxTime = getMaxElement(times);
 
   // Рисуем гистограмму
-  for (var i = 0; i < names.lenght; i++) {
+  for (var i = 0; i < names.length; i++) {
     var playerName = names[i];
-    var playerTime = times[i];
+    var playerTime = Math.floor(times[i]);
 
     // Расчитываем цвет, положение и размеры колонки
     var barColor = getBarColor(playerName);
     var barHeight = (BAR_MAX_HEIGHT * playerTime) / maxTime;
     var barX = CLOUD_X + BAR_PADDING + (BAR_WIDTH + BAR_PADDING) * i;
-    var barY = (CLOUD_Y * 2 + CLOUD_PADDING * 2 + FONT_SIZE * 3 + FONT_GAP * 2 + BAR_MAX_HEIGHT) - barHeight; // TODO
+    var barY = (CLOUD_Y + CLOUD_PADDING * 2 + FONT_SIZE * 2 + BAR_MAX_HEIGHT) - barHeight; // TODO
 
     // Рисуем время игрока, колонку и имя игрока
-    drawText(ctx, playerTime, barX, barY - (FONT_GAP + FONT_SIZE), 'black');
+    drawText(ctx, playerTime, barX, barY - FONT_SIZE, 'black');
     drawRectangle(ctx, barX, barY, BAR_WIDTH, barHeight, barColor);
     drawText(ctx, playerName, barX, barY + barHeight + FONT_GAP, 'black');
   }
