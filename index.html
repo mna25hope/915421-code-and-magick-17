@@ -2,10 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=PT+Mono&subset=latin,cyrillic"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Mono&subset=latin,cyrillic" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <title>Код и Магия</title>
@@ -20,9 +17,7 @@
       >
         <g id="wizard">
           <g id="wizard-coat">
-            <polygon
-              points="19 67 19 59 14 59 14 82 9 82 9 86 23 86 23 67 19 67"
-            />
+            <polygon points="19 67 19 59 14 59 14 82 9 82 9 86 23 86 23 67 19 67" />
             <polygon points="19 59 19 67 23 67 23 86 48 86 48 54 19 54 19 59" />
           </g>
           <g id="wizard-head">
@@ -72,21 +67,21 @@
         <img src="img/title-site.png" alt="Code and magick" />
       </h1>
       <p class="header-description">
-        Это игра, где главного героя, которым вам предстоит управлять и изменять
-        заклинаниями окружающий мир зовут Пендальф Синий. Вместе с ним вас ждет
-        увлекательное приключение&hellip;
+        Это игра, где главного героя, которым вам предстоит управлять и изменять заклинаниями окружающий мир зовут
+        Пендальф Синий. Вместе с ним вас ждет увлекательное приключение&hellip;
       </p>
 
       <div class="demo"></div>
 
       <div class="setup-open">
-        <img src="./img/user-1.jpg" class="setup-open-icon" />
+        <img src="./img/user-1.jpg" class="setup-open-icon" tabindex="0" />
       </div>
     </header>
 
     <div class="overlay setup hidden">
       <form
         class="setup-wizard-form"
+        action="https://js.dump.academy/code-and-magick"
         method="post"
         enctype="multipart/form-data"
         autocomplete="off"
@@ -101,6 +96,7 @@
               <input
                 type="text"
                 name="username"
+                minlength="2"
                 maxlength="25"
                 required
                 class="setup-user-name"
@@ -109,18 +105,12 @@
             </label>
           </div>
 
-          <span class="setup-close">&times;</span>
+          <span class="setup-close" tabindex="0">&times;</span>
         </div>
 
         <div class="setup-artifacts-shop">
           <div class="setup-artifacts-cell">
-            <img
-              src="img/icon-star.png"
-              alt="Star"
-              width="65"
-              height="50"
-              draggable="true"
-            />
+            <img src="img/icon-star.png" alt="Star" width="65" height="50" draggable="true" />
           </div>
           <div class="setup-artifacts-cell"></div>
           <div class="setup-artifacts-cell"></div>
@@ -135,17 +125,9 @@
         <div class="setup-player">
           <div class="setup-wizard-appearance">
             <div class="setup-wizard-wrap">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 62 86"
-                class="setup-wizard"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 86" class="setup-wizard">
                 <g class="wizard">
-                  <use
-                    xlink:href="#wizard-coat"
-                    class="wizard-coat"
-                    style="fill: #6589a4"
-                  ></use>
+                  <use xlink:href="#wizard-coat" class="wizard-coat" style="fill: #6589a4"></use>
                   <use xlink:href="#wizard-head" class="wizard-head"></use>
                   <use xlink:href="#wizard-eyes" class="wizard-eyes"></use>
                   <use xlink:href="#wizard-hands" class="wizard-hands"></use>
@@ -188,9 +170,7 @@
           <div class="setup-similar hidden">
             <h4 class="setup-similar-title">Похожие персонажи</h4>
 
-            <div class="setup-similar-list">
-              <!--Список похожих персонажей-->
-            </div>
+            <div class="setup-similar-list"><!--Список похожих персонажей--></div>
           </div>
 
           <button class="button setup-submit">Сохранить</button>
@@ -201,11 +181,7 @@
     <footer>
       <p>
         <a href="http://htmlacademy.ru" class="footer-link"
-          ><img
-            src="img/htmlacademy-logo.png"
-            alt="HTML Academy"
-            width="130"
-          />Сделано в HTML Academy</a
+          ><img src="img/htmlacademy-logo.png" alt="HTML Academy" width="130" />Сделано в HTML Academy</a
         >в 2017 году
       </p>
     </footer>
@@ -213,11 +189,7 @@
     <template id="similar-wizard-template" style="display: none">
       <div class="setup-similar-item">
         <div class="setup-similar-content">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 62 86"
-            class="setup-similar-wizard"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 86" class="setup-similar-wizard">
             <g class="wizard">
               <use xlink:href="#wizard-coat" class="wizard-coat"></use>
               <use xlink:href="#wizard-head" class="wizard-head"></use>
@@ -235,22 +207,23 @@
       var wizardSpeed = 3;
       var wizardWidth = 70;
 
-      var getFireballSpeed = function() {
+      var getFireballSpeed = function (left) {
         return left ? 5 : 2;
       };
 
-      var getWizardHeight = function() {
+      var getWizardHeight = function () {
         return wizardWidth * 1.337;
       };
 
-      var getWizardX = function(width) {
+      var getWizardX = function (width) {
         return width / 2 - wizardWidth / 2;
       };
 
-      var getWizardY = function(height) {
-        return height / 3 - getWizardHeight / 2;
+      var getWizardY = function (height) {
+        return height / 3 - getWizardHeight() / 2;
       };
     </script>
+
     <script src="js/stat.js"></script>
     <script src="js/game.js"></script>
   </body>

@@ -5,23 +5,17 @@ var CLOUD_X = 100;
 var CLOUD_Y = 10;
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
-var CLOUD_PADDING = 30; // Отступ внутри окна
+var CLOUD_PADDING = 20; // Отступ внутри окна
 var CLOUD_SHADOW_OFFSET = 10; // Отступ тени окна
 
 // Константы текста
 var FONT_SIZE = 16;
-var FONT_GAP = 10;
+var FONT_GAP = 5;
 
 // Константы колонок
 var BAR_MAX_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_PADDING = 50;
-
-// Рисует окно с тенью (облако) в заданных координатах
-var drawWindow = function (ctx, x, y) {
-  drawRectangle(ctx, x + CLOUD_SHADOW_OFFSET, y + CLOUD_SHADOW_OFFSET, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.7)');
-  drawRectangle(ctx, x, y, CLOUD_WIDTH, CLOUD_HEIGHT, '#fff');
-};
 
 // Рисует текст заданного цвета в заданных координатах
 var drawText = function (ctx, text, x, y, color) {
@@ -39,7 +33,9 @@ var drawRectangle = function (ctx, x, y, width, height, color) {
 
 // Возвращает максимальный элемент в массиве
 var getMaxElement = function (arr) {
-if (!arr.length) return null;
+  if (!arr || !arr.length) {
+    return null;
+  }
 
   var maxElement = arr[0];
 
@@ -49,29 +45,41 @@ if (!arr.length) return null;
     }
   }
 
-  return maxElement; // TODO
+  return maxElement;
 };
 
-// Возвращает цвет колонки гистограммы в зависимости
-// от имени игрока playerName. Если оно равно 'Вы', возвращает
-// красный rgba(255, 0, 0, 1). Если другое — случайный оттенок синего.
+// Возвращает цвет колонки игрока
 var getBarColor = function (playerName) {
   if (playerName === 'Вы') {
     return 'rgba(255, 0, 0, 1)';
   } else {
-    var saturation = Math.floor(Math.random()*100);
-    return 'hsl(230, ' +saturation+ '%, 50%)';
-  }// TODO
+    var saturation = Math.floor(Math.random() * 100);
+    return 'hsl(230, ' + saturation + '%, 50%)';
+  }
 };
 
-// Рисует статистику игроков
+// Отображает окно статистики игрока
 window.renderStatistics = function (ctx, names, times) {
-  // Рисуем окно
-  drawWindow(ctx, CLOUD_X, CLOUD_Y);
+  // Рисуем окно с тенью
+  drawRectangle(
+      ctx,
+      CLOUD_X + CLOUD_SHADOW_OFFSET,
+      CLOUD_Y + CLOUD_SHADOW_OFFSET,
+      CLOUD_WIDTH,
+      CLOUD_HEIGHT,
+      'rgba(0, 0, 0, 0.7)'
+  );
+  drawRectangle(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, '#fff');
 
   // Рисуем текст поздравления с победой
   drawText(ctx, 'Ура вы победили!', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING, 'black');
-    drawText(ctx, 'Список результатов:', CLOUD_X + CLOUD_PADDING, CLOUD_Y + CLOUD_PADDING + FONT_SIZE + FONT_GAP, 'black');
+  drawText(
+      ctx,
+      'Список результатов:',
+      CLOUD_X + CLOUD_PADDING,
+      CLOUD_Y + CLOUD_PADDING + FONT_SIZE + FONT_GAP,
+      'black'
+  );
 
   // Находим максимальное значение времени
   var maxTime = getMaxElement(times);
@@ -85,7 +93,7 @@ window.renderStatistics = function (ctx, names, times) {
     var barColor = getBarColor(playerName);
     var barHeight = (BAR_MAX_HEIGHT * playerTime) / maxTime;
     var barX = CLOUD_X + BAR_PADDING + (BAR_WIDTH + BAR_PADDING) * i;
-    var barY = (CLOUD_Y + CLOUD_PADDING * 2 + FONT_SIZE * 2 + BAR_MAX_HEIGHT) - barHeight; // TODO
+    var barY = CLOUD_Y + CLOUD_PADDING * 3 + FONT_SIZE * 2 + BAR_MAX_HEIGHT - barHeight;
 
     // Рисуем время игрока, колонку и имя игрока
     drawText(ctx, playerTime, barX, barY - FONT_SIZE, 'black');
